@@ -1,6 +1,6 @@
 # validation
 
-A set of validation functions
+Validation functions for Deno 🦕
 
 ## Validations
 
