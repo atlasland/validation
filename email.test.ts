@@ -1,4 +1,4 @@
-import { assertEquals } from './deps.ts'
+import { assertEquals } from './dev_deps.ts'
 import { email } from './email.ts'
 
 Deno.test('should pass on valid email addresses', () => {

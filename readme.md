@@ -1,6 +1,6 @@
-# @gabrielizaias/validation
+# validation
 
-This is a set of validation functions that I often find myself using on projects.
+A set of validation functions
 
 ## Validations
 
@@ -8,8 +8,8 @@ This is a set of validation functions that I often find myself using on projects
 
 Validates an email according to [RFC5322](https://tools.ietf.org/html/rfc5322#section-3.4) (or as close as possible).
 
-```js
-import { email } from "@gabrielizaias/validation/email.js";
+```ts
+import { email } from "https://deno.land/x/validation/email.ts";
 
 if (email('test@example.com')) {
 	console.log('valid')
