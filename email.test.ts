@@ -1,393 +1,412 @@
-import { email } from './email'
+import { assertEquals } from './deps.ts'
+import { email } from './email.ts'
 
-describe('validation', () => {
-	describe('email', () => {
-		test('should pass on valid email addresses', () => {
-			expect(email('test@example.com')).toBe(true)
-			expect(email('support@subdomain.example.com')).toBe(true)
-			expect(email('first.last@iana.org')).toBe(true)
-			expect(
-				email(
-					'1234567890123456789012345678901234567890123456789012345678901234@iana.org'
-				)
-			).toBe(true)
-			expect(email('first.last@sub.do,com')).toBe(true)
-			expect(email('first@last@iana.org')).toBe(true)
-			expect(
-				email(
-					'x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x2'
-				)
-			).toBe(true)
-			expect(
-				email(
-					'1234567890123456789012345678901234567890123456789012345678@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.123456789012345678901234567890123456789012345678901234567890123.iana.org'
-				)
-			).toBe(true)
-			expect(
-				email(
-					'first.last@x23456789012345678901234567890123456789012345678901234567890123.iana.org'
-				)
-			).toBe(true)
-			expect(email('first.last@3com.com')).toBe(true)
-			expect(email('first.last@123.iana.org')).toBe(true)
-			expect(
-				email(
-					'123456789012345678901234567890123456789012345678901234567890@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345.iana.org'
-				)
-			).toBe(true)
-			expect(
-				email(
-					'12345678901234567890123456789012345678901234567890123456789012345@iana.org'
-				)
-			).toBe(true)
-			expect(email('.first.last@iana.org')).toBe(true)
-			expect(email('first..last@iana.org')).toBe(true)
-			expect(email('first\\\\@last@iana.org')).toBe(true)
-			expect(
-				email(
-					'x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456'
-				)
-			).toBe(true)
-			expect(email('first.last@example.123')).toBe(true)
-			expect(
-				email(
-					'first.last@x234567890123456789012345678901234567890123456789012345678901234.iana.org'
-				)
-			).toBe(true)
-			expect(email('user+mailbox@iana.org')).toBe(true)
-			expect(email('customer/department=shipping@iana.org')).toBe(true)
-			expect(email('$A12345@iana.org')).toBe(true)
-			expect(email('!def!xyz%abc@iana.org')).toBe(true)
-			expect(email('_somename@iana.org')).toBe(true)
-			expect(email('dclo@us.ibm.com')).toBe(true)
-			expect(email('abc\\@def@iana.org')).toBe(true)
-			expect(email('peter.piper@iana.org')).toBe(true)
-			expect(email('Doug\\ \\"Ace\\"\\ Lovell@iana.org')).toBe(true)
-			expect(email('abc@def@iana.org')).toBe(true)
-			expect(email('abc\\\\@def@iana.org')).toBe(true)
-			expect(email('qu@iana.org')).toBe(true)
-			expect(email('.dot@iana.org')).toBe(true)
-			expect(email('two..dot@iana.org')).toBe(true)
-			expect(email('hello world@iana.org')).toBe(true)
-			expect(email('gatsby@f.sc.ot.t.f.i.tzg.era.l.d.')).toBe(true)
-			expect(email('test@iana.org')).toBe(true)
-			expect(email('1234567890@iana.org')).toBe(true)
-			expect(email('test+test@iana.org')).toBe(true)
-			expect(email('test-test@iana.org')).toBe(true)
-			expect(email('t*est@iana.org')).toBe(true)
-			expect(email('+1~1+@iana.org')).toBe(true)
-			expect(email('{_test_}@iana.org')).toBe(true)
-			expect(email('test.test@iana.org')).toBe(true)
-			expect(email('test@123.123.123.x123')).toBe(true)
-			expect(email('test@123.123.123.123')).toBe(true)
-			expect(email('test@example.iana.org')).toBe(true)
-			expect(email('test@example.example.iana.org')).toBe(true)
-			expect(email('test..test@iana.org')).toBe(true)
-			expect(email('.test@iana.org')).toBe(true)
-			expect(email('test@test@iana.org')).toBe(true)
-			expect(email('-- test --@iana.org')).toBe(true)
-			expect(
-				email(
-					'test@123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012.com'
-				)
-			).toBe(true)
-			expect(email('test@123.123.123.123]')).toBe(true)
-			expect(email('customer/department@iana.org')).toBe(true)
-			expect(email('_Yosemite.Sam@iana.org')).toBe(true)
-			expect(email('~@iana.org')).toBe(true)
-			expect(email('.wooly@iana.org')).toBe(true)
-			expect(email('wo..oly@iana.org')).toBe(true)
-			expect(email('Ima.Fool@iana.org')).toBe(true)
-			expect(email('Ima Fool@iana.org')).toBe(true)
-			expect(email('phil.h\\@\\@ck@haacked.com')).toBe(true)
-			expect(
-				email('Test.&#13;&#10;Folding.&#13;&#10;Whitespace@iana.org')
-			).toBe(true)
-			expect(email('first."".last@iana.org')).toBe(true)
-			expect(email('first\\last@iana.org')).toBe(true)
-			expect(email('Abc\\@def@iana.org')).toBe(true)
-			expect(email('Fred\\ Bloggs@iana.org')).toBe(true)
-			expect(email('Joe.\\\\Blow@iana.org')).toBe(true)
-			expect(email('{^c\\@**Dog^}@cartoon.com')).toBe(true)
-			expect(email('first().last@iana.org')).toBe(true)
-			expect(email('first.(&#13;&#10;middle &#13;&#10;)last@iana.org')).toBe(
-				true
-			)
-			expect(email('first(middle)last@iana.org')).toBe(true)
-			expect(email('first(abc.def).last@iana.org')).toBe(true)
-			expect(email('first(a"bc.def).last@iana.org')).toBe(true)
-			expect(email('name.lastname@domain.com')).toBe(true)
-			expect(email('a@bar.com')).toBe(true)
-			expect(email('a@bar.com.')).toBe(true)
-			expect(email('a-b@bar.com')).toBe(true)
-			expect(email('+@b.c')).toBe(true)
-			expect(email('+@b.com')).toBe(true)
-			expect(email('a@b.co-foo.uk')).toBe(true)
-			expect(email('valid@about.museum')).toBe(true)
-			expect(email('invalid@about.museum-')).toBe(true)
-			expect(email('shaitan@my-domain.thisisminekthx')).toBe(true)
-			expect(email('foobar@192.168.0.1')).toBe(true)
-			expect(email('Invalid \\&#10;Folding \\&#10;Whitespace@iana.org')).toBe(
-				true
-			)
-			expect(email('user%uucp!path@berkeley.edu')).toBe(true)
-			expect(email('test. &#13;&#10;&#13;&#10;obs@syntax.com')).toBe(true)
-			expect(email('test.&#13;&#10;&#13;&#10;obs@syntax.com')).toBe(true)
-			expect(email("cdburgess+!#$%&'*-/=?+_{}|~test@gmail.com")).toBe(true)
-			expect(email('test@test.com')).toBe(true)
-			expect(email('test@example.com&#10;')).toBe(true)
-			expect(email('test@xn--example.com')).toBe(true)
-		})
+Deno.test('should pass on valid email addresses', () => {
+	assertEquals(email('test@example.com'), true)
+	assertEquals(email('support@subdomain.example.com'), true)
+	assertEquals(email('first.last@iana.org'), true)
+	assertEquals(
+		email(
+			'1234567890123456789012345678901234567890123456789012345678901234@iana.org'
+		),
+		true
+	)
+	assertEquals(email('first.last@sub.do,com'), true)
+	assertEquals(email('first@last@iana.org'), true)
+	assertEquals(
+		email(
+			'x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x2'
+		),
+		true
+	)
+	assertEquals(
+		email(
+			'1234567890123456789012345678901234567890123456789012345678@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.123456789012345678901234567890123456789012345678901234567890123.iana.org'
+		),
+		true
+	)
+	assertEquals(
+		email(
+			'first.last@x23456789012345678901234567890123456789012345678901234567890123.iana.org'
+		),
+		true
+	)
+	assertEquals(email('first.last@3com.com'), true)
+	assertEquals(email('first.last@123.iana.org'), true)
+	assertEquals(
+		email(
+			'123456789012345678901234567890123456789012345678901234567890@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345.iana.org'
+		),
+		true
+	)
+	assertEquals(
+		email(
+			'12345678901234567890123456789012345678901234567890123456789012345@iana.org'
+		),
+		true
+	)
+	assertEquals(email('.first.last@iana.org'), true)
+	assertEquals(email('first..last@iana.org'), true)
+	assertEquals(email('first\\\\@last@iana.org'), true)
+	assertEquals(
+		email(
+			'x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456'
+		),
+		true
+	)
+	assertEquals(email('first.last@example.123'), true)
+	assertEquals(
+		email(
+			'first.last@x234567890123456789012345678901234567890123456789012345678901234.iana.org'
+		),
+		true
+	)
+	assertEquals(email('user+mailbox@iana.org'), true)
+	assertEquals(email('customer/department=shipping@iana.org'), true)
+	assertEquals(email('$A12345@iana.org'), true)
+	assertEquals(email('!def!xyz%abc@iana.org'), true)
+	assertEquals(email('_somename@iana.org'), true)
+	assertEquals(email('dclo@us.ibm.com'), true)
+	assertEquals(email('abc\\@def@iana.org'), true)
+	assertEquals(email('peter.piper@iana.org'), true)
+	assertEquals(email('Doug\\ \\"Ace\\"\\ Lovell@iana.org'), true)
+	assertEquals(email('abc@def@iana.org'), true)
+	assertEquals(email('abc\\\\@def@iana.org'), true)
+	assertEquals(email('qu@iana.org'), true)
+	assertEquals(email('.dot@iana.org'), true)
+	assertEquals(email('two..dot@iana.org'), true)
+	assertEquals(email('hello world@iana.org'), true)
+	assertEquals(email('gatsby@f.sc.ot.t.f.i.tzg.era.l.d.'), true)
+	assertEquals(email('test@iana.org'), true)
+	assertEquals(email('1234567890@iana.org'), true)
+	assertEquals(email('test+test@iana.org'), true)
+	assertEquals(email('test-test@iana.org'), true)
+	assertEquals(email('t*est@iana.org'), true)
+	assertEquals(email('+1~1+@iana.org'), true)
+	assertEquals(email('{_test_}@iana.org'), true)
+	assertEquals(email('test.test@iana.org'), true)
+	assertEquals(email('test@123.123.123.x123'), true)
+	assertEquals(email('test@123.123.123.123'), true)
+	assertEquals(email('test@example.iana.org'), true)
+	assertEquals(email('test@example.example.iana.org'), true)
+	assertEquals(email('test..test@iana.org'), true)
+	assertEquals(email('.test@iana.org'), true)
+	assertEquals(email('test@test@iana.org'), true)
+	assertEquals(email('-- test --@iana.org'), true)
+	assertEquals(
+		email(
+			'test@123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012.com'
+		),
+		true
+	)
+	assertEquals(email('test@123.123.123.123]'), true)
+	assertEquals(email('customer/department@iana.org'), true)
+	assertEquals(email('_Yosemite.Sam@iana.org'), true)
+	assertEquals(email('~@iana.org'), true)
+	assertEquals(email('.wooly@iana.org'), true)
+	assertEquals(email('wo..oly@iana.org'), true)
+	assertEquals(email('Ima.Fool@iana.org'), true)
+	assertEquals(email('Ima Fool@iana.org'), true)
+	assertEquals(email('phil.h\\@\\@ck@haacked.com'), true)
+	assertEquals(
+		email('Test.&#13;&#10;Folding.&#13;&#10;Whitespace@iana.org'),
+		true
+	)
+	assertEquals(email('first."".last@iana.org'), true)
+	assertEquals(email('first\\last@iana.org'), true)
+	assertEquals(email('Abc\\@def@iana.org'), true)
+	assertEquals(email('Fred\\ Bloggs@iana.org'), true)
+	assertEquals(email('Joe.\\\\Blow@iana.org'), true)
+	assertEquals(email('{^c\\@**Dog^}@cartoon.com'), true)
+	assertEquals(email('first().last@iana.org'), true)
+	assertEquals(email('first.(&#13;&#10;middle &#13;&#10;)last@iana.org'), true)
+	assertEquals(email('first(middle)last@iana.org'), true)
+	assertEquals(email('first(abc.def).last@iana.org'), true)
+	assertEquals(email('first(a"bc.def).last@iana.org'), true)
+	assertEquals(email('name.lastname@domain.com'), true)
+	assertEquals(email('a@bar.com'), true)
+	assertEquals(email('a@bar.com.'), true)
+	assertEquals(email('a-b@bar.com'), true)
+	assertEquals(email('+@b.c'), true)
+	assertEquals(email('+@b.com'), true)
+	assertEquals(email('a@b.co-foo.uk'), true)
+	assertEquals(email('valid@about.museum'), true)
+	assertEquals(email('invalid@about.museum-'), true)
+	assertEquals(email('shaitan@my-domain.thisisminekthx'), true)
+	assertEquals(email('foobar@192.168.0.1'), true)
+	assertEquals(email('Invalid \\&#10;Folding \\&#10;Whitespace@iana.org'), true)
+	assertEquals(email('user%uucp!path@berkeley.edu'), true)
+	assertEquals(email('test. &#13;&#10;&#13;&#10;obs@syntax.com'), true)
+	assertEquals(email('test.&#13;&#10;&#13;&#10;obs@syntax.com'), true)
+	assertEquals(email("cdburgess+!#$%&'*-/=?+_{}|~test@gmail.com"), true)
+	assertEquals(email('test@test.com'), true)
+	assertEquals(email('test@example.com&#10;'), true)
+	assertEquals(email('test@xn--example.com'), true)
+})
 
-		test('should fail on invalid email addresses', () => {
-			expect(email('first"last"@iana.org')).toBe(false)
-			expect(email('first@last"@iana.org')).toBe(false)
-			expect(email('first\\\\last"@iana.org')).toBe(false)
-			expect(email('first.last@[12.34.56.78]')).toBe(false)
-			expect(email('first.last@[IPv6:::12.34.56.78]')).toBe(false)
-			expect(email('first.last@[IPv6:1111:2222:3333::4444:12.34.56.78]')).toBe(
-				false
-			)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.56.78]')
-			).toBe(false)
-			expect(email('first.last@[IPv6:::1111:2222:3333:4444:5555:6666]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:1111:2222:3333::4444:5555:6666]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:1111:2222:3333:4444:5555:6666::]')).toBe(
-				false
-			)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888]')
-			).toBe(false)
-			expect(email('first.last')).toBe(false)
-			expect(email('first.last.@iana.org')).toBe(false)
-			expect(email('first"last"@iana.org')).toBe(false)
-			expect(email('first\\last"@iana.org')).toBe(false)
-			expect(email('"""@iana.org')).toBe(false)
-			expect(email('"\\"@iana.org')).toBe(false)
-			expect(email('""@iana.org')).toBe(false)
-			expect(email('first.last@')).toBe(false)
-			expect(email('first.last@[.12.34.56.78]')).toBe(false)
-			expect(email('first.last@[12.34.56.789]')).toBe(false)
-			expect(email('first.last@[::12.34.56.78]')).toBe(false)
-			expect(email('first.last@[IPv5:::12.34.56.78]')).toBe(false)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333::4444:5555:12.34.56.78]')
-			).toBe(false)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333:4444:5555:12.34.56.78]')
-			).toBe(false)
-			expect(
-				email(
-					'first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:12.34.56.78]'
-				)
-			).toBe(false)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777]')
-			).toBe(false)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888:9999]')
-			).toBe(false)
-			expect(email('first.last@[IPv6:1111:2222::3333::4444:5555:6666]')).toBe(
-				false
-			)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333::4444:5555:6666:7777]')
-			).toBe(false)
-			expect(email('first.last@[IPv6:1111:2222:333x::4444:5555]')).toBe(false)
-			expect(email('first.last@[IPv6:1111:2222:33333::4444:5555]')).toBe(false)
-			expect(email('first.last@com')).toBe(false)
-			expect(email('first.last@-xample.com')).toBe(false)
-			expect(email('first.last@exampl-.com')).toBe(false)
-			expect(email('Abc\\@def"@iana.org')).toBe(false)
-			expect(email('Fred\\ Bloggs"@iana.org')).toBe(false)
-			expect(email('Joe.\\\\Blow"@iana.org')).toBe(false)
-			expect(email('Abc@def"@iana.org')).toBe(false)
-			expect(email('Fred Bloggs"@iana.org')).toBe(false)
-			expect(email('abc\\\\@iana.org')).toBe(false)
-			expect(email('Doug \\"Ace\\" L."@iana.org')).toBe(false)
-			expect(email('abc\\@iana.org')).toBe(false)
-			expect(email('@iana.org')).toBe(false)
-			expect(email('doug@')).toBe(false)
-			expect(email('ote"@iana.org')).toBe(false)
-			expect(email('dot.@iana.org')).toBe(false)
-			expect(email('Doug "Ace" L."@iana.org')).toBe(false)
-			expect(email('Doug\\ \\"Ace\\"\\ L\\.@iana.org')).toBe(false)
-			expect(email('TEST@iana.org')).toBe(false)
-			expect(email('[[test]]"@iana.org')).toBe(false)
-			expect(email('test.test"@iana.org')).toBe(false)
-			expect(email('test."test"@iana.org')).toBe(false)
-			expect(email('test@test"@iana.org')).toBe(false)
-			expect(email('test@[123.123.123.123]')).toBe(false)
-			expect(email('test.iana.org')).toBe(false)
-			expect(email('test.@iana.org')).toBe(false)
-			expect(email('test@@iana.org')).toBe(false)
-			expect(email('[test]@iana.org')).toBe(false)
-			expect(email('test\\test"@iana.org')).toBe(false)
-			expect(email('test"test"@iana.org')).toBe(false)
-			expect(email('()[]\\;:,><@iana.org')).toBe(false)
-			expect(email('test@.')).toBe(false)
-			expect(email('test@example.')).toBe(false)
-			expect(email('test@.org')).toBe(false)
-			expect(email('test@example')).toBe(false)
-			expect(email('test@[123.123.123.123')).toBe(false)
-			expect(email('NotAnEmail')).toBe(false)
-			expect(email('@NotAnEmail')).toBe(false)
-			expect(email('test\\\\blah"@iana.org')).toBe(false)
-			expect(email('test\\blah"@iana.org')).toBe(false)
-			expect(email('test\\&#13;blah"@iana.org')).toBe(false)
-			expect(email('test &#13;blah"@iana.org')).toBe(false)
-			expect(email('test\\"blah"@iana.org')).toBe(false)
-			expect(email('test"blah"@iana.org')).toBe(false)
-			expect(email('pootietang.@iana.org')).toBe(false)
-			expect(email('.@iana.org')).toBe(false)
-			expect(email('Austin@Powers"@iana.org')).toBe(false)
-			expect(email('Ima.Fool"@iana.org')).toBe(false)
-			expect(email('Ima Fool"@iana.org')).toBe(false)
-			expect(email('first"."last"@iana.org')).toBe(false)
-			expect(email('first".middle."last"@iana.org')).toBe(false)
-			expect(email('first\\\\"last"@iana.org')).toBe(false)
-			expect(email('first".las\t@iana.org')).toBe(false)
-			expect(email('first."last"@iana.org')).toBe(false)
-			expect(email('first"."middle"."last"@iana.org')).toBe(false)
-			expect(email('first.middle"."last"@iana.org')).toBe(false)
-			expect(email('first.middle.last"@iana.org')).toBe(false)
-			expect(email('first..last"@iana.org')).toBe(false)
-			expect(email('foo@[\\1.2.3.4]')).toBe(false)
-			expect(email('first\\\\\\"last"@iana.org')).toBe(false)
-			expect(email('first."mid\\dle"."last"@iana.org')).toBe(false)
-			expect(
-				email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.567.89]')
-			).toBe(false)
-			expect(email('test\\&#13;&#10;blah"@iana.org')).toBe(false)
-			expect(email('test &#13;&#10;blah"@iana.org')).toBe(false)
-			expect(email('(foo)cal(bar)@(baz)iamcal.com(quux)')).toBe(false)
-			expect(email('cal@iamcal(woo).(yay)com')).toBe(false)
-			expect(email('foo"(yay)@(hoopla)[1.2.3.4]')).toBe(false)
-			expect(email('cal(woo(yay)hoopla)@iamcal.com')).toBe(false)
-			expect(email('cal(foo\\@bar)@iamcal.com')).toBe(false)
-			expect(email('cal(foo\\)bar)@iamcal.com')).toBe(false)
-			expect(email('cal(foo(bar)@iamcal.com')).toBe(false)
-			expect(email('cal(foo)bar)@iamcal.com')).toBe(false)
-			expect(email('cal(foo\\)@iamcal.com')).toBe(false)
-			expect(
-				email(
-					'first(12345678901234567890123456789012345678901234567890)last@(1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890)iana.org'
-				)
-			).toBe(false)
-			expect(
-				email(
-					'first(Welcome to&#13;&#10; the("wonderful"(!)) world &#13;&#10; of email)@iana.org'
-				)
-			).toBe(false)
-			expect(email('pete(his account)@silly.test(his host)')).toBe(false)
-			expect(email("c@(Chris's host.)public.example")).toBe(false)
-			expect(email('jdoe@machine(comment).  example')).toBe(false)
-			expect(email('1234   @   local(blah)  .machine .example')).toBe(false)
-			expect(email('first.(")middle.last(")@iana.org')).toBe(false)
-			expect(
-				email(
-					'first(abc("def".ghi).mno)middle(abc("def".ghi).mno).last@(abc("def".ghi).mno)example(abc("def".ghi).mno).(abc("def".ghi).mno)com(abc("def".ghi).mno)'
-				)
-			).toBe(false)
-			expect(email('first(abc\\(def)@iana.org')).toBe(false)
-			expect(
-				email(
-					'first.last@x(1234567890123456789012345678901234567890123456789012345678901234567890).com'
-				)
-			).toBe(false)
-			expect(email('a(a(b(c)d(e(f))g)h(i)j)@iana.org')).toBe(false)
-			expect(email('a(a(b(c)d(e(f))g)(h(i)j)@iana.org')).toBe(false)
-			expect(email('.@')).toBe(false)
-			expect(email('a@b')).toBe(false)
-			expect(email('@bar.com')).toBe(false)
-			expect(email('@@bar.com')).toBe(false)
-			expect(email('aaa.com')).toBe(false)
-			expect(email('aaa@.com')).toBe(false)
-			expect(email('aaa@.123')).toBe(false)
-			expect(email('aaa@[123.123.123.123]')).toBe(false)
-			expect(email('aaa@[123.123.123.123]a')).toBe(false)
-			expect(email('aaa@[123.123.123.333]')).toBe(false)
-			expect(email('a@bar')).toBe(false)
-			expect(email('a@-b.com')).toBe(false)
-			expect(email('a@b-.com')).toBe(false)
-			expect(email('-@..com')).toBe(false)
-			expect(email('-@a..com')).toBe(false)
-			expect(email('hello my name is"@s\tutter.com')).toBe(false)
-			expect(email('Test \\"Fail\\" Ing"@iana.org')).toBe(false)
-			expect(email('test@...........com')).toBe(false)
-			expect(email('Joe\\\\Blow"@iana.org')).toBe(false)
-			expect(email('HM2Kinsists@(that comments are allowed)this.is.ok')).toBe(
-				false
-			)
-			expect(email('first(last)"@iana.org')).toBe(false)
-			expect(email('first.last @iana.org')).toBe(false)
-			expect(email('Unicode NULL \\␀"@char.com')).toBe(false)
-			expect(email('Unicode NULL ␀"@char.com')).toBe(false)
-			expect(email('Unicode NULL \\␀@char.com')).toBe(false)
-			expect(email('first.last@[IPv6:::a2:a3:a4:b1:b2:b3:b4]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3::]')).toBe(false)
-			expect(email('first.last@[IPv6::]')).toBe(false)
-			expect(email('first.last@[IPv6:::]')).toBe(false)
-			expect(email('first.last@[IPv6::::]')).toBe(false)
-			expect(email('first.last@[IPv6::b4]')).toBe(false)
-			expect(email('first.last@[IPv6:::b4]')).toBe(false)
-			expect(email('first.last@[IPv6::::b4]')).toBe(false)
-			expect(email('first.last@[IPv6::b3:b4]')).toBe(false)
-			expect(email('first.last@[IPv6:::b3:b4]')).toBe(false)
-			expect(email('first.last@[IPv6::::b3:b4]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::b4]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:::b4]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:::]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2::]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:::]')).toBe(false)
-			expect(email('first.last@[IPv6:0123:4567:89ab:cdef::]')).toBe(false)
-			expect(email('first.last@[IPv6:0123:4567:89ab:CDEF::]')).toBe(false)
-			expect(email('first.last@[IPv6:::a3:a4:b1:ffff:11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:::a2:a3:a4:b1:ffff:11.22.33.44]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:a1:a2:a3:a4::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:a3:a4:b1::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6::::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.44]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.xx]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:0123:4567:89ab:CDEF::11.22.33.44]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:0123:4567:89ab:CDEFF::11.22.33.44]')).toBe(
-				false
-			)
-			expect(email('first.last@[IPv6:a1::a4:b1::b4:11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::11.22.33]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::11.22.33.44.55]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::b211.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::b2:11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::b2::11.22.33.44]')).toBe(false)
-			expect(email('first.last@[IPv6:a1::b3:]')).toBe(false)
-			expect(email('first.last@[IPv6::a2::b4]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3:]')).toBe(false)
-			expect(email('first.last@[IPv6::a2:a3:a4:b1:b2:b3:b4]')).toBe(false)
-			expect(email('first.last@[IPv6:a1:a2:a3:a4::b1:b2:b3:b4]')).toBe(false)
-			expect(email('test@Bücher.ch')).toBe(false)
-			expect(email('a@a')).toBe(false)
-		})
-	})
+Deno.test('should fail on invalid email addresses', () => {
+	assertEquals(email('first"last"@iana.org'), false)
+	assertEquals(email('first@last"@iana.org'), false)
+	assertEquals(email('first\\\\last"@iana.org'), false)
+	assertEquals(email('first.last@[12.34.56.78]'), false)
+	assertEquals(email('first.last@[IPv6:::12.34.56.78]'), false)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333::4444:12.34.56.78]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.56.78]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:::1111:2222:3333:4444:5555:6666]'),
+		false
+	)
+	assertEquals(email('first.last@[IPv6:1111:2222:3333::4444:5555:6666]'), false)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666::]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888]'),
+		false
+	)
+	assertEquals(email('first.last'), false)
+	assertEquals(email('first.last.@iana.org'), false)
+	assertEquals(email('first"last"@iana.org'), false)
+	assertEquals(email('first\\last"@iana.org'), false)
+	assertEquals(email('"""@iana.org'), false)
+	assertEquals(email('"\\"@iana.org'), false)
+	assertEquals(email('""@iana.org'), false)
+	assertEquals(email('first.last@'), false)
+	assertEquals(email('first.last@[.12.34.56.78]'), false)
+	assertEquals(email('first.last@[12.34.56.789]'), false)
+	assertEquals(email('first.last@[::12.34.56.78]'), false)
+	assertEquals(email('first.last@[IPv5:::12.34.56.78]'), false)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333::4444:5555:12.34.56.78]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:12.34.56.78]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:12.34.56.78]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888:9999]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222::3333::4444:5555:6666]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333::4444:5555:6666:7777]'),
+		false
+	)
+	assertEquals(email('first.last@[IPv6:1111:2222:333x::4444:5555]'), false)
+	assertEquals(email('first.last@[IPv6:1111:2222:33333::4444:5555]'), false)
+	assertEquals(email('first.last@com'), false)
+	assertEquals(email('first.last@-xample.com'), false)
+	assertEquals(email('first.last@exampl-.com'), false)
+	assertEquals(email('Abc\\@def"@iana.org'), false)
+	assertEquals(email('Fred\\ Bloggs"@iana.org'), false)
+	assertEquals(email('Joe.\\\\Blow"@iana.org'), false)
+	assertEquals(email('Abc@def"@iana.org'), false)
+	assertEquals(email('Fred Bloggs"@iana.org'), false)
+	assertEquals(email('abc\\\\@iana.org'), false)
+	assertEquals(email('Doug \\"Ace\\" L."@iana.org'), false)
+	assertEquals(email('abc\\@iana.org'), false)
+	assertEquals(email('@iana.org'), false)
+	assertEquals(email('doug@'), false)
+	assertEquals(email('ote"@iana.org'), false)
+	assertEquals(email('dot.@iana.org'), false)
+	assertEquals(email('Doug "Ace" L."@iana.org'), false)
+	assertEquals(email('Doug\\ \\"Ace\\"\\ L\\.@iana.org'), false)
+	assertEquals(email('TEST@iana.org'), false)
+	assertEquals(email('[[test]]"@iana.org'), false)
+	assertEquals(email('test.test"@iana.org'), false)
+	assertEquals(email('test."test"@iana.org'), false)
+	assertEquals(email('test@test"@iana.org'), false)
+	assertEquals(email('test@[123.123.123.123]'), false)
+	assertEquals(email('test.iana.org'), false)
+	assertEquals(email('test.@iana.org'), false)
+	assertEquals(email('test@@iana.org'), false)
+	assertEquals(email('[test]@iana.org'), false)
+	assertEquals(email('test\\test"@iana.org'), false)
+	assertEquals(email('test"test"@iana.org'), false)
+	assertEquals(email('()[]\\;:,><@iana.org'), false)
+	assertEquals(email('test@.'), false)
+	assertEquals(email('test@example.'), false)
+	assertEquals(email('test@.org'), false)
+	assertEquals(email('test@example'), false)
+	assertEquals(email('test@[123.123.123.123'), false)
+	assertEquals(email('NotAnEmail'), false)
+	assertEquals(email('@NotAnEmail'), false)
+	assertEquals(email('test\\\\blah"@iana.org'), false)
+	assertEquals(email('test\\blah"@iana.org'), false)
+	assertEquals(email('test\\&#13;blah"@iana.org'), false)
+	assertEquals(email('test &#13;blah"@iana.org'), false)
+	assertEquals(email('test\\"blah"@iana.org'), false)
+	assertEquals(email('test"blah"@iana.org'), false)
+	assertEquals(email('pootietang.@iana.org'), false)
+	assertEquals(email('.@iana.org'), false)
+	assertEquals(email('Austin@Powers"@iana.org'), false)
+	assertEquals(email('Ima.Fool"@iana.org'), false)
+	assertEquals(email('Ima Fool"@iana.org'), false)
+	assertEquals(email('first"."last"@iana.org'), false)
+	assertEquals(email('first".middle."last"@iana.org'), false)
+	assertEquals(email('first\\\\"last"@iana.org'), false)
+	assertEquals(email('first".las\t@iana.org'), false)
+	assertEquals(email('first."last"@iana.org'), false)
+	assertEquals(email('first"."middle"."last"@iana.org'), false)
+	assertEquals(email('first.middle"."last"@iana.org'), false)
+	assertEquals(email('first.middle.last"@iana.org'), false)
+	assertEquals(email('first..last"@iana.org'), false)
+	assertEquals(email('foo@[\\1.2.3.4]'), false)
+	assertEquals(email('first\\\\\\"last"@iana.org'), false)
+	assertEquals(email('first."mid\\dle"."last"@iana.org'), false)
+	assertEquals(
+		email('first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.567.89]'),
+		false
+	)
+	assertEquals(email('test\\&#13;&#10;blah"@iana.org'), false)
+	assertEquals(email('test &#13;&#10;blah"@iana.org'), false)
+	assertEquals(email('(foo)cal(bar)@(baz)iamcal.com(quux)'), false)
+	assertEquals(email('cal@iamcal(woo).(yay)com'), false)
+	assertEquals(email('foo"(yay)@(hoopla)[1.2.3.4]'), false)
+	assertEquals(email('cal(woo(yay)hoopla)@iamcal.com'), false)
+	assertEquals(email('cal(foo\\@bar)@iamcal.com'), false)
+	assertEquals(email('cal(foo\\)bar)@iamcal.com'), false)
+	assertEquals(email('cal(foo(bar)@iamcal.com'), false)
+	assertEquals(email('cal(foo)bar)@iamcal.com'), false)
+	assertEquals(email('cal(foo\\)@iamcal.com'), false)
+	assertEquals(
+		email(
+			'first(12345678901234567890123456789012345678901234567890)last@(1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890)iana.org'
+		),
+		false
+	)
+	assertEquals(
+		email(
+			'first(Welcome to&#13;&#10; the("wonderful"(!)) world &#13;&#10; of email)@iana.org'
+		),
+		false
+	)
+	assertEquals(email('pete(his account)@silly.test(his host)'), false)
+	assertEquals(email("c@(Chris's host.)public.example"), false)
+	assertEquals(email('jdoe@machine(comment).  example'), false)
+	assertEquals(email('1234   @   local(blah)  .machine .example'), false)
+	assertEquals(email('first.(")middle.last(")@iana.org'), false)
+	assertEquals(
+		email(
+			'first(abc("def".ghi).mno)middle(abc("def".ghi).mno).last@(abc("def".ghi).mno)example(abc("def".ghi).mno).(abc("def".ghi).mno)com(abc("def".ghi).mno)'
+		),
+		false
+	)
+	assertEquals(email('first(abc\\(def)@iana.org'), false)
+	assertEquals(
+		email(
+			'first.last@x(1234567890123456789012345678901234567890123456789012345678901234567890).com'
+		),
+		false
+	)
+	assertEquals(email('a(a(b(c)d(e(f))g)h(i)j)@iana.org'), false)
+	assertEquals(email('a(a(b(c)d(e(f))g)(h(i)j)@iana.org'), false)
+	assertEquals(email('.@'), false)
+	assertEquals(email('a@b'), false)
+	assertEquals(email('@bar.com'), false)
+	assertEquals(email('@@bar.com'), false)
+	assertEquals(email('aaa.com'), false)
+	assertEquals(email('aaa@.com'), false)
+	assertEquals(email('aaa@.123'), false)
+	assertEquals(email('aaa@[123.123.123.123]'), false)
+	assertEquals(email('aaa@[123.123.123.123]a'), false)
+	assertEquals(email('aaa@[123.123.123.333]'), false)
+	assertEquals(email('a@bar'), false)
+	assertEquals(email('a@-b.com'), false)
+	assertEquals(email('a@b-.com'), false)
+	assertEquals(email('-@..com'), false)
+	assertEquals(email('-@a..com'), false)
+	assertEquals(email('hello my name is"@s\tutter.com'), false)
+	assertEquals(email('Test \\"Fail\\" Ing"@iana.org'), false)
+	assertEquals(email('test@...........com'), false)
+	assertEquals(email('Joe\\\\Blow"@iana.org'), false)
+	assertEquals(
+		email('HM2Kinsists@(that comments are allowed)this.is.ok'),
+		false
+	)
+	assertEquals(email('first(last)"@iana.org'), false)
+	assertEquals(email('first.last @iana.org'), false)
+	assertEquals(email('Unicode NULL \\␀"@char.com'), false)
+	assertEquals(email('Unicode NULL ␀"@char.com'), false)
+	assertEquals(email('Unicode NULL \\␀@char.com'), false)
+	assertEquals(email('first.last@[IPv6:::a2:a3:a4:b1:b2:b3:b4]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3::]'), false)
+	assertEquals(email('first.last@[IPv6::]'), false)
+	assertEquals(email('first.last@[IPv6:::]'), false)
+	assertEquals(email('first.last@[IPv6::::]'), false)
+	assertEquals(email('first.last@[IPv6::b4]'), false)
+	assertEquals(email('first.last@[IPv6:::b4]'), false)
+	assertEquals(email('first.last@[IPv6::::b4]'), false)
+	assertEquals(email('first.last@[IPv6::b3:b4]'), false)
+	assertEquals(email('first.last@[IPv6:::b3:b4]'), false)
+	assertEquals(email('first.last@[IPv6::::b3:b4]'), false)
+	assertEquals(email('first.last@[IPv6:a1::b4]'), false)
+	assertEquals(email('first.last@[IPv6:a1:::b4]'), false)
+	assertEquals(email('first.last@[IPv6:a1:]'), false)
+	assertEquals(email('first.last@[IPv6:a1::]'), false)
+	assertEquals(email('first.last@[IPv6:a1:::]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2::]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:::]'), false)
+	assertEquals(email('first.last@[IPv6:0123:4567:89ab:cdef::]'), false)
+	assertEquals(email('first.last@[IPv6:0123:4567:89ab:CDEF::]'), false)
+	assertEquals(email('first.last@[IPv6:::a3:a4:b1:ffff:11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:::a2:a3:a4:b1:ffff:11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:a3:a4::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:a3:a4:b1::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6::::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1:11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1:::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:::11.22.33.44]'), false)
+	assertEquals(
+		email('first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.44]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.xx]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:0123:4567:89ab:CDEF::11.22.33.44]'),
+		false
+	)
+	assertEquals(
+		email('first.last@[IPv6:0123:4567:89ab:CDEFF::11.22.33.44]'),
+		false
+	)
+	assertEquals(email('first.last@[IPv6:a1::a4:b1::b4:11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1::11.22.33]'), false)
+	assertEquals(email('first.last@[IPv6:a1::11.22.33.44.55]'), false)
+	assertEquals(email('first.last@[IPv6:a1::b211.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1::b2:11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1::b2::11.22.33.44]'), false)
+	assertEquals(email('first.last@[IPv6:a1::b3:]'), false)
+	assertEquals(email('first.last@[IPv6::a2::b4]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3:]'), false)
+	assertEquals(email('first.last@[IPv6::a2:a3:a4:b1:b2:b3:b4]'), false)
+	assertEquals(email('first.last@[IPv6:a1:a2:a3:a4::b1:b2:b3:b4]'), false)
+	assertEquals(email('test@Bücher.ch'), false)
+	assertEquals(email('a@a'), false)
 })

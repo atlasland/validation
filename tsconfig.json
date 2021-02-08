@@ -4,7 +4,9 @@
     "alwaysStrict": true,
     "declaration": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "inlineSourceMap": true,
     "isolatedModules": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -23,11 +25,14 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "esnext"
+    "target": "esnext",
+    "useDefineForClassFields": true
   },
   "exclude": [
     "node_modules",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "mod.ts",
+    "deps.ts"
   ],
   "include": [
     "**/*.ts",
