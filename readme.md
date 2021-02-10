@@ -9,7 +9,7 @@ Validation functions for Deno 🦕
 Validates an email according to [RFC5322](https://tools.ietf.org/html/rfc5322#section-3.4) (or as close as possible).
 
 ```ts
-import { email } from "https://deno.land/x/validation/email.ts";
+import { email } from "https://deno.land/x/validation/mod.ts";
 
 if (email('test@example.com')) {
 	console.log('valid')
