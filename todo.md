@@ -1,0 +1,1 @@
+- [ ] see what can be ported from https://github.com/validatorjs/validator.js

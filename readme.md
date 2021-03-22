@@ -1,4 +1,4 @@
-# validation
+# Validation
 
 Validation functions for Deno 🦕
 
@@ -6,12 +6,14 @@ Validation functions for Deno 🦕
 
 ### Email
 
-Validates an email according to [RFC5322](https://tools.ietf.org/html/rfc5322#section-3.4) (or as close as possible).
+Validates an email according to
+[RFC5322](https://tools.ietf.org/html/rfc5322#section-3.4) (or as close as
+possible).
 
 ```ts
 import { email } from "https://deno.land/x/validation/mod.ts";
 
-if (email('test@example.com')) {
-	console.log('valid')
+if (email("test@example.com")) {
+  console.log("valid");
 }
 ```
