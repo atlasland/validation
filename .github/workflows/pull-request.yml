@@ -50,9 +50,11 @@ jobs:
       run: deno task test
 
     - name: Generate test coverage report
+      if: matrix.os == 'ubuntu-latest'
       run: deno coverage ./cov --lcov > cov.lcov
 
     - name: Upload coverage
+      if: matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v2
       with:
         name: ${{ matrix.os }}
