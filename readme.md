@@ -1,5 +1,7 @@
 # Validation
 
+[![codecov](https://codecov.io/gh/atlasland/validation/branch/main/graph/badge.svg?token=UWBLBL4S0W)](https://codecov.io/gh/atlasland/validation)
+
 Validation functions for Deno 🦕
 
 ## Validations
