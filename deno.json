@@ -10,7 +10,7 @@
     }
   },
   "tasks": {
-    "cache": "deno cache --reload --lock=lock.json --lock-write mod.ts",
+    "cache": "deno cache --reload --lock=lock.json --lock-write mod.ts dev_deps.ts",
     "test": "deno test --unstable --allow-all --coverage=./cov"
   }
 }

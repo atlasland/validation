@@ -13,7 +13,7 @@ possible).
 ```ts
 import { email } from "https://deno.land/x/validation/mod.ts";
 
-if (email("test@example.com")) {
+if (email.valid("test@example.com")) {
   console.log("valid");
 }
 ```
