@@ -1,6 +1,18 @@
-# Validation
+<p align="center">
+  <h1 align="center">Validation</h1>
+</p>
 
-[![codecov](https://codecov.io/gh/atlasland/validation/branch/main/graph/badge.svg?token=UWBLBL4S0W)](https://codecov.io/gh/atlasland/validation)
+<p align="center">
+  <a href="https://deno.land/x/validation" target="_blank">
+    <img src="https://img.shields.io/badge/-deno.land/x/validation-000.svg?logo=deno&labelColor=000" alt="denoland" />
+  </a>
+  <a href="https://codecov.io/gh/atlasland/validation" target="_blank">
+    <img src="https://codecov.io/gh/atlasland/validation/branch/main/graph/badge.svg?token=UWBLBL4S0W" alt="codecov" />
+  </a>
+  <a href="https://github.com/atlasland/atlas/blob/main/license" target="_blank">
+    <img src="https://img.shields.io/badge/license-MIT-green.svg?labelColor=000" alt="license" />
+  </a>
+</p>
 
 Validation functions for Deno 🦕
 
