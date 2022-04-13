@@ -52,3 +52,11 @@ uuid.valid("8e2952ac-bb72-11ec-8422-0242ac120002", { version: "v1" }); // true
 // v5
 uuid.valid("4b4f2adc-5b27-57b5-8e3a-c4c4bcf94f05", { version: "v5" }); // true
 ```
+
+## Contributing
+
+Refer to our [contributing](/contributing.md) guidelines.
+
+## License
+
+This package is licensed under the [MIT License](/license).
