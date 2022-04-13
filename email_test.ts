@@ -104,300 +104,201 @@ Deno.test("[email] valid", () => {
   }
 });
 
-Deno.test("should fail on invalid email addresses", () => {
-  assertEquals(email.valid('first"last"@iana.org'), false);
-  assertEquals(email.valid('first@last"@iana.org'), false);
-  assertEquals(email.valid('first\\\\last"@iana.org'), false);
-  assertEquals(email.valid("first.last@[12.34.56.78]"), false);
-  assertEquals(email.valid("first.last@[IPv6:::12.34.56.78]"), false);
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333::4444:12.34.56.78]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.56.78]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:::1111:2222:3333:4444:5555:6666]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333::4444:5555:6666]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333:4444:5555:6666::]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888]"),
-    false,
-  );
-  assertEquals(email.valid("first.last"), false);
-  assertEquals(email.valid("first.last.@iana.org"), false);
-  assertEquals(email.valid('first"last"@iana.org'), false);
-  assertEquals(email.valid('first\\last"@iana.org'), false);
-  assertEquals(email.valid('"""@iana.org'), false);
-  assertEquals(email.valid('"\\"@iana.org'), false);
-  assertEquals(email.valid('""@iana.org'), false);
-  assertEquals(email.valid("first.last@"), false);
-  assertEquals(email.valid("first.last@[.12.34.56.78]"), false);
-  assertEquals(email.valid("first.last@[12.34.56.789]"), false);
-  assertEquals(email.valid("first.last@[::12.34.56.78]"), false);
-  assertEquals(email.valid("first.last@[IPv5:::12.34.56.78]"), false);
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333::4444:5555:12.34.56.78]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333:4444:5555:12.34.56.78]"),
-    false,
-  );
-  assertEquals(
-    email.valid(
-      "first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:12.34.56.78]",
-    ),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777]"),
-    false,
-  );
-  assertEquals(
-    email.valid(
-      "first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888:9999]",
-    ),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222::3333::4444:5555:6666]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333::4444:5555:6666:7777]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:333x::4444:5555]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:33333::4444:5555]"),
-    false,
-  );
-  assertEquals(email.valid("first.last@com"), false);
-  assertEquals(email.valid("first.last@-xample.com"), false);
-  assertEquals(email.valid("first.last@exampl-.com"), false);
-  assertEquals(email.valid('Abc\\@def"@iana.org'), false);
-  assertEquals(email.valid('Fred\\ Bloggs"@iana.org'), false);
-  assertEquals(email.valid('Joe.\\\\Blow"@iana.org'), false);
-  assertEquals(email.valid('Abc@def"@iana.org'), false);
-  assertEquals(email.valid('Fred Bloggs"@iana.org'), false);
-  assertEquals(email.valid("abc\\\\@iana.org"), false);
-  assertEquals(email.valid('Doug \\"Ace\\" L."@iana.org'), false);
-  assertEquals(email.valid("abc\\@iana.org"), false);
-  assertEquals(email.valid("@iana.org"), false);
-  assertEquals(email.valid("doug@"), false);
-  assertEquals(email.valid('ote"@iana.org'), false);
-  assertEquals(email.valid("dot.@iana.org"), false);
-  assertEquals(email.valid('Doug "Ace" L."@iana.org'), false);
-  assertEquals(email.valid('Doug\\ \\"Ace\\"\\ L\\.@iana.org'), false);
-  assertEquals(email.valid("TEST@iana.org"), false);
-  assertEquals(email.valid('[[test]]"@iana.org'), false);
-  assertEquals(email.valid('test.test"@iana.org'), false);
-  assertEquals(email.valid('test."test"@iana.org'), false);
-  assertEquals(email.valid('test@test"@iana.org'), false);
-  assertEquals(email.valid("test@[123.123.123.123]"), false);
-  assertEquals(email.valid("test.iana.org"), false);
-  assertEquals(email.valid("test.@iana.org"), false);
-  assertEquals(email.valid("test@@iana.org"), false);
-  assertEquals(email.valid("[test]@iana.org"), false);
-  assertEquals(email.valid('test\\test"@iana.org'), false);
-  assertEquals(email.valid('test"test"@iana.org'), false);
-  assertEquals(email.valid("()[]\\;:,><@iana.org"), false);
-  assertEquals(email.valid("test@."), false);
-  assertEquals(email.valid("test@example."), false);
-  assertEquals(email.valid("test@.org"), false);
-  assertEquals(email.valid("test@example"), false);
-  assertEquals(email.valid("test@[123.123.123.123"), false);
-  assertEquals(email.valid("NotAnEmail"), false);
-  assertEquals(email.valid("@NotAnEmail"), false);
-  assertEquals(email.valid('test\\\\blah"@iana.org'), false);
-  assertEquals(email.valid('test\\blah"@iana.org'), false);
-  assertEquals(email.valid('test\\&#13;blah"@iana.org'), false);
-  assertEquals(email.valid('test &#13;blah"@iana.org'), false);
-  assertEquals(email.valid('test\\"blah"@iana.org'), false);
-  assertEquals(email.valid('test"blah"@iana.org'), false);
-  assertEquals(email.valid("pootietang.@iana.org"), false);
-  assertEquals(email.valid(".@iana.org"), false);
-  assertEquals(email.valid('Austin@Powers"@iana.org'), false);
-  assertEquals(email.valid('Ima.Fool"@iana.org'), false);
-  assertEquals(email.valid('Ima Fool"@iana.org'), false);
-  assertEquals(email.valid('first"."last"@iana.org'), false);
-  assertEquals(email.valid('first".middle."last"@iana.org'), false);
-  assertEquals(email.valid('first\\\\"last"@iana.org'), false);
-  assertEquals(email.valid('first".las\t@iana.org'), false);
-  assertEquals(email.valid('first."last"@iana.org'), false);
-  assertEquals(email.valid('first"."middle"."last"@iana.org'), false);
-  assertEquals(email.valid('first.middle"."last"@iana.org'), false);
-  assertEquals(email.valid('first.middle.last"@iana.org'), false);
-  assertEquals(email.valid('first..last"@iana.org'), false);
-  assertEquals(email.valid("foo@[\\1.2.3.4]"), false);
-  assertEquals(email.valid('first\\\\\\"last"@iana.org'), false);
-  assertEquals(email.valid('first."mid\\dle"."last"@iana.org'), false);
-  assertEquals(
-    email.valid("first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.567.89]"),
-    false,
-  );
-  assertEquals(email.valid('test\\&#13;&#10;blah"@iana.org'), false);
-  assertEquals(email.valid('test &#13;&#10;blah"@iana.org'), false);
-  assertEquals(email.valid("(foo)cal(bar)@(baz)iamcal.com(quux)"), false);
-  assertEquals(email.valid("cal@iamcal(woo).(yay)com"), false);
-  assertEquals(email.valid('foo"(yay)@(hoopla)[1.2.3.4]'), false);
-  assertEquals(email.valid("cal(woo(yay)hoopla)@iamcal.com"), false);
-  assertEquals(email.valid("cal(foo\\@bar)@iamcal.com"), false);
-  assertEquals(email.valid("cal(foo\\)bar)@iamcal.com"), false);
-  assertEquals(email.valid("cal(foo(bar)@iamcal.com"), false);
-  assertEquals(email.valid("cal(foo)bar)@iamcal.com"), false);
-  assertEquals(email.valid("cal(foo\\)@iamcal.com"), false);
-  assertEquals(
-    email.valid(
-      "first(12345678901234567890123456789012345678901234567890)last@(1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890)iana.org",
-    ),
-    false,
-  );
-  assertEquals(
-    email.valid(
-      'first(Welcome to&#13;&#10; the("wonderful"(!)) world &#13;&#10; of email)@iana.org',
-    ),
-    false,
-  );
-  assertEquals(email.valid("pete(his account)@silly.test(his host)"), false);
-  assertEquals(email.valid("c@(Chris's host.)public.example"), false);
-  assertEquals(email.valid("jdoe@machine(comment).  example"), false);
-  assertEquals(email.valid("1234   @   local(blah)  .machine .example"), false);
-  assertEquals(email.valid('first.(")middle.last(")@iana.org'), false);
-  assertEquals(
-    email.valid(
-      'first(abc("def".ghi).mno)middle(abc("def".ghi).mno).last@(abc("def".ghi).mno)example(abc("def".ghi).mno).(abc("def".ghi).mno)com(abc("def".ghi).mno)',
-    ),
-    false,
-  );
-  assertEquals(email.valid("first(abc\\(def)@iana.org"), false);
-  assertEquals(
-    email.valid(
-      "first.last@x(1234567890123456789012345678901234567890123456789012345678901234567890).com",
-    ),
-    false,
-  );
-  assertEquals(email.valid("a(a(b(c)d(e(f))g)h(i)j)@iana.org"), false);
-  assertEquals(email.valid("a(a(b(c)d(e(f))g)(h(i)j)@iana.org"), false);
-  assertEquals(email.valid(".@"), false);
-  assertEquals(email.valid("a@b"), false);
-  assertEquals(email.valid("@bar.com"), false);
-  assertEquals(email.valid("@@bar.com"), false);
-  assertEquals(email.valid("aaa.com"), false);
-  assertEquals(email.valid("aaa@.com"), false);
-  assertEquals(email.valid("aaa@.123"), false);
-  assertEquals(email.valid("aaa@[123.123.123.123]"), false);
-  assertEquals(email.valid("aaa@[123.123.123.123]a"), false);
-  assertEquals(email.valid("aaa@[123.123.123.333]"), false);
-  assertEquals(email.valid("a@bar"), false);
-  assertEquals(email.valid("a@-b.com"), false);
-  assertEquals(email.valid("a@b-.com"), false);
-  assertEquals(email.valid("-@..com"), false);
-  assertEquals(email.valid("-@a..com"), false);
-  assertEquals(email.valid('hello my name is"@s\tutter.com'), false);
-  assertEquals(email.valid('Test \\"Fail\\" Ing"@iana.org'), false);
-  assertEquals(email.valid("test@...........com"), false);
-  assertEquals(email.valid('Joe\\\\Blow"@iana.org'), false);
-  assertEquals(
-    email.valid("HM2Kinsists@(that comments are allowed)this.is.ok"),
-    false,
-  );
-  assertEquals(email.valid('first(last)"@iana.org'), false);
-  assertEquals(email.valid("first.last @iana.org"), false);
-  assertEquals(email.valid('Unicode NULL \\␀"@char.com'), false);
-  assertEquals(email.valid('Unicode NULL ␀"@char.com'), false);
-  assertEquals(email.valid("Unicode NULL \\␀@char.com"), false);
-  assertEquals(email.valid("first.last@[IPv6:::a2:a3:a4:b1:b2:b3:b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3::]"), false);
-  assertEquals(email.valid("first.last@[IPv6::]"), false);
-  assertEquals(email.valid("first.last@[IPv6:::]"), false);
-  assertEquals(email.valid("first.last@[IPv6::::]"), false);
-  assertEquals(email.valid("first.last@[IPv6::b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:::b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6::::b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6::b3:b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:::b3:b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6::::b3:b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:::b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:::]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2:]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2::]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2:::]"), false);
-  assertEquals(email.valid("first.last@[IPv6:0123:4567:89ab:cdef::]"), false);
-  assertEquals(email.valid("first.last@[IPv6:0123:4567:89ab:CDEF::]"), false);
-  assertEquals(
-    email.valid("first.last@[IPv6:::a3:a4:b1:ffff:11.22.33.44]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:::a2:a3:a4:b1:ffff:11.22.33.44]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:a1:a2:a3:a4::11.22.33.44]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:a1:a2:a3:a4:b1::11.22.33.44]"),
-    false,
-  );
-  assertEquals(email.valid("first.last@[IPv6::11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6::::11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:::11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2::11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2:::11.22.33.44]"), false);
-  assertEquals(
-    email.valid("first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.44]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.xx]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:0123:4567:89ab:CDEF::11.22.33.44]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:0123:4567:89ab:CDEFF::11.22.33.44]"),
-    false,
-  );
-  assertEquals(
-    email.valid("first.last@[IPv6:a1::a4:b1::b4:11.22.33.44]"),
-    false,
-  );
-  assertEquals(email.valid("first.last@[IPv6:a1::11.22.33]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::11.22.33.44.55]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::b211.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::b2:11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::b2::11.22.33.44]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1::b3:]"), false);
-  assertEquals(email.valid("first.last@[IPv6::a2::b4]"), false);
-  assertEquals(email.valid("first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3:]"), false);
-  assertEquals(email.valid("first.last@[IPv6::a2:a3:a4:b1:b2:b3:b4]"), false);
-  assertEquals(
-    email.valid("first.last@[IPv6:a1:a2:a3:a4::b1:b2:b3:b4]"),
-    false,
-  );
-  assertEquals(email.valid("test@Bücher.ch"), false);
-  assertEquals(email.valid("a@a"), false);
+Deno.test("[email] invalid", () => {
+  const invalid = [
+    'first"last"@iana.org',
+    'first@last"@iana.org',
+    'first\\\\last"@iana.org',
+    "first.last@[12.34.56.78]",
+    "first.last@[IPv6:::12.34.56.78]",
+    "first.last",
+    "first.last.@iana.org",
+    'first"last"@iana.org',
+    'first\\last"@iana.org',
+    '"""@iana.org',
+    '"\\"@iana.org',
+    '""@iana.org',
+    "first.last@",
+    "first.last@[.12.34.56.78]",
+    "first.last@[12.34.56.789]",
+    "first.last@[::12.34.56.78]",
+    "first.last@[IPv5:::12.34.56.78]",
+    "first.last@com",
+    "first.last@-xample.com",
+    "first.last@exampl-.com",
+    'Abc\\@def"@iana.org',
+    'Fred\\ Bloggs"@iana.org',
+    'Joe.\\\\Blow"@iana.org',
+    'Abc@def"@iana.org',
+    'Fred Bloggs"@iana.org',
+    "abc\\\\@iana.org",
+    'Doug \\"Ace\\" L."@iana.org',
+    "abc\\@iana.org",
+    "@iana.org",
+    "doug@",
+    'ote"@iana.org',
+    "dot.@iana.org",
+    'Doug "Ace" L."@iana.org',
+    'Doug\\ \\"Ace\\"\\ L\\.@iana.org',
+    "TEST@iana.org",
+    '[[test]]"@iana.org',
+    'test.test"@iana.org',
+    'test."test"@iana.org',
+    'test@test"@iana.org',
+    "test@[123.123.123.123]",
+    "test.iana.org",
+    "test.@iana.org",
+    "test@@iana.org",
+    "[test]@iana.org",
+    'test\\test"@iana.org',
+    'test"test"@iana.org',
+    "()[]\\;:,><@iana.org",
+    "test@.",
+    "test@example.",
+    "test@.org",
+    "test@example",
+    "test@[123.123.123.123",
+    "NotAnEmail",
+    "@NotAnEmail",
+    'test\\\\blah"@iana.org',
+    'test\\blah"@iana.org',
+    'test\\&#13;blah"@iana.org',
+    'test &#13;blah"@iana.org',
+    'test\\"blah"@iana.org',
+    'test"blah"@iana.org',
+    "pootietang.@iana.org",
+    ".@iana.org",
+    'Austin@Powers"@iana.org',
+    'Ima.Fool"@iana.org',
+    'Ima Fool"@iana.org',
+    'first"."last"@iana.org',
+    'first".middle."last"@iana.org',
+    'first\\\\"last"@iana.org',
+    'first".las\t@iana.org',
+    'first."last"@iana.org',
+    'first"."middle"."last"@iana.org',
+    'first.middle"."last"@iana.org',
+    'first.middle.last"@iana.org',
+    'first..last"@iana.org',
+    "foo@[\\1.2.3.4]",
+    'first\\\\\\"last"@iana.org',
+    'first."mid\\dle"."last"@iana.org',
+    'test\\&#13;&#10;blah"@iana.org',
+    'test &#13;&#10;blah"@iana.org',
+    "(foo)cal(bar)@(baz)iamcal.com(quux)",
+    "cal@iamcal(woo).(yay)com",
+    'foo"(yay)@(hoopla)[1.2.3.4]',
+    "cal(woo(yay)hoopla)@iamcal.com",
+    "cal(foo\\@bar)@iamcal.com",
+    "cal(foo\\)bar)@iamcal.com",
+    "cal(foo(bar)@iamcal.com",
+    "cal(foo)bar)@iamcal.com",
+    "cal(foo\\)@iamcal.com",
+    "pete(his account)@silly.test(his host)",
+    "c@(Chris's host.)public.example",
+    "jdoe@machine(comment).  example",
+    "1234   @   local(blah)  .machine .example",
+    'first.(")middle.last(")@iana.org',
+    "first(abc\\(def)@iana.org",
+    "a(a(b(c)d(e(f))g)h(i)j)@iana.org",
+    "a(a(b(c)d(e(f))g)(h(i)j)@iana.org",
+    ".@",
+    "a@b",
+    "@bar.com",
+    "@@bar.com",
+    "aaa.com",
+    "aaa@.com",
+    "aaa@.123",
+    "aaa@[123.123.123.123]",
+    "aaa@[123.123.123.123]a",
+    "aaa@[123.123.123.333]",
+    "a@bar",
+    "a@-b.com",
+    "a@b-.com",
+    "-@..com",
+    "-@a..com",
+    'hello my name is"@s\tutter.com',
+    'Test \\"Fail\\" Ing"@iana.org',
+    "test@...........com",
+    'Joe\\\\Blow"@iana.org',
+    'first(last)"@iana.org',
+    "first.last @iana.org",
+    'Unicode NULL \\␀"@char.com',
+    'Unicode NULL ␀"@char.com',
+    "Unicode NULL \\␀@char.com",
+    "first.last@[IPv6:::a2:a3:a4:b1:b2:b3:b4]",
+    "first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3::]",
+    "first.last@[IPv6::]",
+    "first.last@[IPv6:::]",
+    "first.last@[IPv6::::]",
+    "first.last@[IPv6::b4]",
+    "first.last@[IPv6:::b4]",
+    "first.last@[IPv6::::b4]",
+    "first.last@[IPv6::b3:b4]",
+    "first.last@[IPv6:::b3:b4]",
+    "first.last@[IPv6::::b3:b4]",
+    "first.last@[IPv6:a1::b4]",
+    "first.last@[IPv6:a1:::b4]",
+    "first.last@[IPv6:a1:]",
+    "first.last@[IPv6:a1::]",
+    "first.last@[IPv6:a1:::]",
+    "first.last@[IPv6:a1:a2:]",
+    "first.last@[IPv6:a1:a2::]",
+    "first.last@[IPv6:a1:a2:::]",
+    "first.last@[IPv6:0123:4567:89ab:cdef::]",
+    "first.last@[IPv6:0123:4567:89ab:CDEF::]",
+    "first.last@[IPv6::11.22.33.44]",
+    "first.last@[IPv6::::11.22.33.44]",
+    "first.last@[IPv6:a1:11.22.33.44]",
+    "first.last@[IPv6:a1::11.22.33.44]",
+    "first.last@[IPv6:a1:::11.22.33.44]",
+    "first.last@[IPv6:a1:a2::11.22.33.44]",
+    "first.last@[IPv6:a1:a2:::11.22.33.44]",
+    "first.last@[IPv6:a1::11.22.33]",
+    "first.last@[IPv6:a1::11.22.33.44.55]",
+    "first.last@[IPv6:a1::b211.22.33.44]",
+    "first.last@[IPv6:a1::b2:11.22.33.44]",
+    "first.last@[IPv6:a1::b2::11.22.33.44]",
+    "first.last@[IPv6:a1::b3:]",
+    "first.last@[IPv6::a2::b4]",
+    "first.last@[IPv6:a1:a2:a3:a4:b1:b2:b3:]",
+    "first.last@[IPv6::a2:a3:a4:b1:b2:b3:b4]",
+    "test@Bücher.ch",
+    "a@a",
+    "first.last@[IPv6:1111:2222:3333::4444:12.34.56.78]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.56.78]",
+    "first.last@[IPv6:::1111:2222:3333:4444:5555:6666]",
+    "first.last@[IPv6:1111:2222:3333::4444:5555:6666]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666::]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888]",
+    "first.last@[IPv6:1111:2222:3333::4444:5555:12.34.56.78]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:12.34.56.78]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777]",
+    "first.last@[IPv6:1111:2222::3333::4444:5555:6666]",
+    "first.last@[IPv6:1111:2222:3333::4444:5555:6666:7777]",
+    "first.last@[IPv6:1111:2222:333x::4444:5555]",
+    "first.last@[IPv6:1111:2222:33333::4444:5555]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666:12.34.567.89]",
+    "HM2Kinsists@(that comments are allowed)this.is.ok",
+    "first.last@[IPv6:::a3:a4:b1:ffff:11.22.33.44]",
+    "first.last@[IPv6:::a2:a3:a4:b1:ffff:11.22.33.44]",
+    "first.last@[IPv6:a1:a2:a3:a4::11.22.33.44]",
+    "first.last@[IPv6:a1:a2:a3:a4:b1::11.22.33.44]",
+    "first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.44]",
+    "first.last@[IPv6:0123:4567:89ab:cdef::11.22.33.xx]",
+    "first.last@[IPv6:0123:4567:89ab:CDEF::11.22.33.44]",
+    "first.last@[IPv6:0123:4567:89ab:CDEFF::11.22.33.44]",
+    "first.last@[IPv6:a1::a4:b1::b4:11.22.33.44]",
+    "first.last@[IPv6:a1:a2:a3:a4::b1:b2:b3:b4]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:12.34.56.78]",
+    "first.last@[IPv6:1111:2222:3333:4444:5555:6666:7777:8888:9999]",
+    "first(12345678901234567890123456789012345678901234567890)last@(1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890)iana.org",
+    'first(Welcome to&#13;&#10; the("wonderful"(!)) world &#13;&#10; of email)@iana.org',
+    'first(abc("def".ghi).mno)middle(abc("def".ghi).mno).last@(abc("def".ghi).mno)example(abc("def".ghi).mno).(abc("def".ghi).mno)com(abc("def".ghi).mno)',
+    "first.last@x(1234567890123456789012345678901234567890123456789012345678901234567890).com",
+  ];
+
+  for (const v of invalid) {
+    assertEquals(email.valid(v), false, `${v} is an invalid email`);
+  }
 });
