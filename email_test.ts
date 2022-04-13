@@ -3,153 +3,105 @@ import { email } from "./mod.ts";
 
 const { assertEquals } = asserts;
 
-Deno.test("should pass on valid email addresses", () => {
-  assertEquals(email.valid("test@example.com"), true);
-  assertEquals(email.valid("support@subdomain.example.com"), true);
-  assertEquals(email.valid("first.last@iana.org"), true);
-  assertEquals(
-    email.valid(
-      "1234567890123456789012345678901234567890123456789012345678901234@iana.org",
-    ),
-    true,
-  );
-  assertEquals(email.valid("first.last@sub.do,com"), true);
-  assertEquals(email.valid("first@last@iana.org"), true);
-  assertEquals(
-    email.valid(
-      "x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x2",
-    ),
-    true,
-  );
-  assertEquals(
-    email.valid(
-      "1234567890123456789012345678901234567890123456789012345678@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.123456789012345678901234567890123456789012345678901234567890123.iana.org",
-    ),
-    true,
-  );
-  assertEquals(
-    email.valid(
-      "first.last@x23456789012345678901234567890123456789012345678901234567890123.iana.org",
-    ),
-    true,
-  );
-  assertEquals(email.valid("first.last@3com.com"), true);
-  assertEquals(email.valid("first.last@123.iana.org"), true);
-  assertEquals(
-    email.valid(
-      "123456789012345678901234567890123456789012345678901234567890@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345.iana.org",
-    ),
-    true,
-  );
-  assertEquals(
-    email.valid(
-      "12345678901234567890123456789012345678901234567890123456789012345@iana.org",
-    ),
-    true,
-  );
-  assertEquals(email.valid(".first.last@iana.org"), true);
-  assertEquals(email.valid("first..last@iana.org"), true);
-  assertEquals(email.valid("first\\\\@last@iana.org"), true);
-  assertEquals(
-    email.valid(
-      "x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456",
-    ),
-    true,
-  );
-  assertEquals(email.valid("first.last@example.123"), true);
-  assertEquals(
-    email.valid(
-      "first.last@x234567890123456789012345678901234567890123456789012345678901234.iana.org",
-    ),
-    true,
-  );
-  assertEquals(email.valid("user+mailbox@iana.org"), true);
-  assertEquals(email.valid("customer/department=shipping@iana.org"), true);
-  assertEquals(email.valid("$A12345@iana.org"), true);
-  assertEquals(email.valid("!def!xyz%abc@iana.org"), true);
-  assertEquals(email.valid("_somename@iana.org"), true);
-  assertEquals(email.valid("dclo@us.ibm.com"), true);
-  assertEquals(email.valid("abc\\@def@iana.org"), true);
-  assertEquals(email.valid("peter.piper@iana.org"), true);
-  assertEquals(email.valid('Doug\\ \\"Ace\\"\\ Lovell@iana.org'), true);
-  assertEquals(email.valid("abc@def@iana.org"), true);
-  assertEquals(email.valid("abc\\\\@def@iana.org"), true);
-  assertEquals(email.valid("qu@iana.org"), true);
-  assertEquals(email.valid(".dot@iana.org"), true);
-  assertEquals(email.valid("two..dot@iana.org"), true);
-  assertEquals(email.valid("hello world@iana.org"), true);
-  assertEquals(email.valid("gatsby@f.sc.ot.t.f.i.tzg.era.l.d."), true);
-  assertEquals(email.valid("test@iana.org"), true);
-  assertEquals(email.valid("1234567890@iana.org"), true);
-  assertEquals(email.valid("test+test@iana.org"), true);
-  assertEquals(email.valid("test-test@iana.org"), true);
-  assertEquals(email.valid("t*est@iana.org"), true);
-  assertEquals(email.valid("+1~1+@iana.org"), true);
-  assertEquals(email.valid("{_test_}@iana.org"), true);
-  assertEquals(email.valid("test.test@iana.org"), true);
-  assertEquals(email.valid("test@123.123.123.x123"), true);
-  assertEquals(email.valid("test@123.123.123.123"), true);
-  assertEquals(email.valid("test@example.iana.org"), true);
-  assertEquals(email.valid("test@example.example.iana.org"), true);
-  assertEquals(email.valid("test..test@iana.org"), true);
-  assertEquals(email.valid(".test@iana.org"), true);
-  assertEquals(email.valid("test@test@iana.org"), true);
-  assertEquals(email.valid("-- test --@iana.org"), true);
-  assertEquals(
-    email.valid(
-      "test@123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012.com",
-    ),
-    true,
-  );
-  assertEquals(email.valid("test@123.123.123.123]"), true);
-  assertEquals(email.valid("customer/department@iana.org"), true);
-  assertEquals(email.valid("_Yosemite.Sam@iana.org"), true);
-  assertEquals(email.valid("~@iana.org"), true);
-  assertEquals(email.valid(".wooly@iana.org"), true);
-  assertEquals(email.valid("wo..oly@iana.org"), true);
-  assertEquals(email.valid("Ima.Fool@iana.org"), true);
-  assertEquals(email.valid("Ima Fool@iana.org"), true);
-  assertEquals(email.valid("phil.h\\@\\@ck@haacked.com"), true);
-  assertEquals(
-    email.valid("Test.&#13;&#10;Folding.&#13;&#10;Whitespace@iana.org"),
-    true,
-  );
-  assertEquals(email.valid('first."".last@iana.org'), true);
-  assertEquals(email.valid("first\\last@iana.org"), true);
-  assertEquals(email.valid("Abc\\@def@iana.org"), true);
-  assertEquals(email.valid("Fred\\ Bloggs@iana.org"), true);
-  assertEquals(email.valid("Joe.\\\\Blow@iana.org"), true);
-  assertEquals(email.valid("{^c\\@**Dog^}@cartoon.com"), true);
-  assertEquals(email.valid("first().last@iana.org"), true);
-  assertEquals(
-    email.valid("first.(&#13;&#10;middle &#13;&#10;)last@iana.org"),
-    true,
-  );
-  assertEquals(email.valid("first(middle)last@iana.org"), true);
-  assertEquals(email.valid("first(abc.def).last@iana.org"), true);
-  assertEquals(email.valid('first(a"bc.def).last@iana.org'), true);
-  assertEquals(email.valid("name.lastname@domain.com"), true);
-  assertEquals(email.valid("a@bar.com"), true);
-  assertEquals(email.valid("a@bar.com."), true);
-  assertEquals(email.valid("a-b@bar.com"), true);
-  assertEquals(email.valid("+@b.c"), true);
-  assertEquals(email.valid("+@b.com"), true);
-  assertEquals(email.valid("a@b.co-foo.uk"), true);
-  assertEquals(email.valid("valid@about.museum"), true);
-  assertEquals(email.valid("invalid@about.museum-"), true);
-  assertEquals(email.valid("shaitan@my-domain.thisisminekthx"), true);
-  assertEquals(email.valid("foobar@192.168.0.1"), true);
-  assertEquals(
-    email.valid("Invalid \\&#10;Folding \\&#10;Whitespace@iana.org"),
-    true,
-  );
-  assertEquals(email.valid("user%uucp!path@berkeley.edu"), true);
-  assertEquals(email.valid("test. &#13;&#10;&#13;&#10;obs@syntax.com"), true);
-  assertEquals(email.valid("test.&#13;&#10;&#13;&#10;obs@syntax.com"), true);
-  assertEquals(email.valid("cdburgess+!#$%&'*-/=?+_{}|~test@gmail.com"), true);
-  assertEquals(email.valid("test@test.com"), true);
-  assertEquals(email.valid("test@example.com&#10;"), true);
-  assertEquals(email.valid("test@xn--example.com"), true);
+Deno.test("[email] valid", () => {
+  const valid = [
+    "test@example.com",
+    "support@subdomain.example.com",
+    "first.last@iana.org",
+    "1234567890123456789012345678901234567890123456789012345678901234@iana.org",
+    "first.last@sub.do,com",
+    "first@last@iana.org",
+    "x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x2",
+    "1234567890123456789012345678901234567890123456789012345678@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.123456789012345678901234567890123456789012345678901234567890123.iana.org",
+    "first.last@3com.com",
+    "first.last@123.iana.org",
+    "first.last@x23456789012345678901234567890123456789012345678901234567890123.iana.org",
+    "123456789012345678901234567890123456789012345678901234567890@12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345678901234567890123456789012345678901234567890123456789.12345.iana.org",
+    "12345678901234567890123456789012345678901234567890123456789012345@iana.org",
+    ".first.last@iana.org",
+    "first..last@iana.org",
+    "first\\\\@last@iana.org",
+    "first.last@example.123",
+    "user+mailbox@iana.org",
+    "customer/department=shipping@iana.org",
+    "$A12345@iana.org",
+    "!def!xyz%abc@iana.org",
+    "_somename@iana.org",
+    "dclo@us.ibm.com",
+    "abc\\@def@iana.org",
+    "peter.piper@iana.org",
+    "abc@def@iana.org",
+    "abc\\\\@def@iana.org",
+    "qu@iana.org",
+    ".dot@iana.org",
+    "two..dot@iana.org",
+    "hello world@iana.org",
+    "gatsby@f.sc.ot.t.f.i.tzg.era.l.d.",
+    "test@iana.org",
+    "1234567890@iana.org",
+    "test+test@iana.org",
+    "test-test@iana.org",
+    "t*est@iana.org",
+    "+1~1+@iana.org",
+    "{_test_}@iana.org",
+    "test.test@iana.org",
+    "test@123.123.123.x123",
+    "test@123.123.123.123",
+    "test@example.iana.org",
+    "test@example.example.iana.org",
+    "test..test@iana.org",
+    ".test@iana.org",
+    "test@test@iana.org",
+    "-- test --@iana.org",
+    "test@123.123.123.123]",
+    "customer/department@iana.org",
+    "_Yosemite.Sam@iana.org",
+    "~@iana.org",
+    ".wooly@iana.org",
+    "wo..oly@iana.org",
+    "Ima.Fool@iana.org",
+    "Ima Fool@iana.org",
+    "phil.h\\@\\@ck@haacked.com",
+    "first\\last@iana.org",
+    "Abc\\@def@iana.org",
+    "Fred\\ Bloggs@iana.org",
+    "Joe.\\\\Blow@iana.org",
+    "{^c\\@**Dog^}@cartoon.com",
+    "first().last@iana.org",
+    "first(middle)last@iana.org",
+    "first(abc.def).last@iana.org",
+    "name.lastname@domain.com",
+    "a@bar.com",
+    "a@bar.com.",
+    "a-b@bar.com",
+    "+@b.c",
+    "+@b.com",
+    "a@b.co-foo.uk",
+    "valid@about.museum",
+    "invalid@about.museum-",
+    "shaitan@my-domain.thisisminekthx",
+    "foobar@192.168.0.1",
+    "user%uucp!path@berkeley.edu",
+    "test. &#13;&#10;&#13;&#10;obs@syntax.com",
+    "test.&#13;&#10;&#13;&#10;obs@syntax.com",
+    "cdburgess+!#$%&'*-/=?+_{}|~test@gmail.com",
+    "test@test.com",
+    "test@example.com&#10;",
+    "test@xn--example.com",
+    "x@x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456789.x23456",
+    "first.last@x234567890123456789012345678901234567890123456789012345678901234.iana.org",
+    "test@123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012.com",
+    'Doug\\ \\"Ace\\"\\ Lovell@iana.org',
+    "Test.&#13;&#10;Folding.&#13;&#10;Whitespace@iana.org",
+    'first."".last@iana.org',
+    "first.(&#13;&#10;middle &#13;&#10;)last@iana.org",
+    'first(a"bc.def).last@iana.org',
+    "Invalid \\&#10;Folding \\&#10;Whitespace@iana.org",
+  ];
+
+  for (const v of valid) {
+    assertEquals(email.valid(v), true, `${v} is a valid email`);
+  }
 });
 
 Deno.test("should fail on invalid email addresses", () => {
