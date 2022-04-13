@@ -13,9 +13,7 @@ possible).
 ```ts
 import { email } from "https://deno.land/x/validation/mod.ts";
 
-if (email.valid("test@example.com")) {
-  console.log("valid");
-}
+email.valid("test@example.com"); // true
 ```
 
 ### UUID
