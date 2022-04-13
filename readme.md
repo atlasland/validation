@@ -16,7 +16,11 @@
 
 Validation functions for Deno 🦕
 
-## Validations
+## Documentation
+
+Visit
+[https://doc.deno.land](https://doc.deno.land/https://deno.land/x/validation/mod.ts)
+to view the up to date documentation.
 
 ### Email
 
