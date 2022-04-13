@@ -1,4 +1,4 @@
-import { asserts } from "./dev_deps.ts";
+import { asserts } from "./deps.ts";
 import { email } from "./mod.ts";
 
 const { assertEquals } = asserts;
