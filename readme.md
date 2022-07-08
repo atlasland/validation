@@ -29,9 +29,12 @@ Validates an email according to
 possible).
 
 ```ts
-import { email } from "https://deno.land/x/validation/mod.ts";
+import { email, REGEX } from "https://deno.land/x/validation/mod.ts";
 
 email.valid("test@example.com"); // true
+
+// Or use the underlying validation RegExp directly
+REGEX.test("some@example.com"); // true
 ```
 
 ### UUID
